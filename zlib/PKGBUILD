@@ -19,7 +19,7 @@ prepare() {
 }
 
 build() {
-  export CC=musl-gcc
+	export CC=musl-gcc
 	cd ${srcdir}/zlib-$pkgver
 	./configure --prefix=/usr
 	make
@@ -33,7 +33,7 @@ check() {
 package() {
 	cd ${srcdir}/zlib-$pkgver
 	make install DESTDIR=${pkgdir}/musl
-  mkdir -p $pkgdir/usr/lib/musl
-  mv $pkgdir/musl/usr/{lib,include} $pkgdir/usr/lib/musl
-  rm -rf $pkgdir/musl
+	mkdir -p $pkgdir/usr/lib/musl
+	mv $pkgdir/musl/usr/{lib,include} $pkgdir/usr/lib/musl
+	rm -rf $pkgdir/musl
 }
