@@ -2,7 +2,7 @@
 # Maintainer: Pierre Schmitz <pierre@archlinux.de>
 
 pkgname=openssl-musl
-_ver=1.0.1l
+_ver=1.0.2a
 # use a pacman compatible version scheme
 pkgver=${_ver/[a-z]/.${_ver//[0-9.]/}}
 #pkgver=$_ver
@@ -18,13 +18,11 @@ backup=('etc/ssl/openssl.cnf')
 source=("https://www.openssl.org/source/openssl-${_ver}.tar.gz"
         "https://www.openssl.org/source/openssl-${_ver}.tar.gz.asc"
         'no-rpath.patch'
-        'ca-dir.patch'
-        'musl.patch')
-md5sums=('cdb22925fc9bc97ccbf1e007661f2aa6'
+        'ca-dir.patch')
+md5sums=('a06c547dac9044161a477211049f60ef'
          'SKIP'
          'dc78d3d06baffc16217519242ce92478'
-         '3bf51be3a1bbd262be46dc619f92aa90'
-         'SKIP')
+         '3bf51be3a1bbd262be46dc619f92aa90')
 validpgpkeys=('8657ABB260F056B1E5190839D9C4D26D0E604491')
 
 prepare() {
@@ -34,8 +32,6 @@ prepare() {
 	patch -p0 -i $srcdir/no-rpath.patch
 	# set ca dir to /etc/ssl by default
 	patch -p0 -i $srcdir/ca-dir.patch
-  # patch for musl
-	patch -p0 -i $srcdir/musl.patch
 }
 
 build() {
