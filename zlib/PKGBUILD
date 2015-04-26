@@ -1,0 +1,39 @@
+# $Id: PKGBUILD 197152 2013-10-23 13:04:17Z allan $
+# Maintainer: Pierre Schmitz <pierre@archlinux.de>
+
+pkgname=zlib-musl
+pkgver=1.2.8
+pkgrel=3
+pkgdesc='Compression library implementing the deflate compression method found in gzip and PKZIP'
+arch=('i686' 'x86_64')
+license=('custom')
+url="http://www.zlib.net/"
+depends=('musl')
+options=('staticlibs')  # needed by binutils testsuite
+source=("http://zlib.net/current/zlib-${pkgver}.tar.gz")
+md5sums=('44d667c142d7cda120332623eab69f40')
+
+prepare() {
+	cd ${srcdir}/zlib-$pkgver
+	grep -A 24 '^  Copyright' zlib.h > LICENSE
+}
+
+build() {
+  export CC=musl-gcc
+	cd ${srcdir}/zlib-$pkgver
+	./configure --prefix=/usr
+	make
+}
+
+check() {
+	cd ${srcdir}/zlib-$pkgver
+	make test
+}
+
+package() {
+	cd ${srcdir}/zlib-$pkgver
+	make install DESTDIR=${pkgdir}/musl
+  mkdir -p $pkgdir/usr/lib/musl
+  mv $pkgdir/musl/usr/{lib,include} $pkgdir/usr/lib/musl
+  rm -rf $pkgdir/musl
+}
